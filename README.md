@@ -2,7 +2,7 @@
 
 
 ------------How to run---------------------
-1) Clone the project and navigate to CodingChallenge folder using your favorite CLI.
+1) Clone the project and navigate to CodingChallenge folder using your favorite CLI. (Here I have used windows 10 terminal)
 2) Then run "mvn clean install" command to build the project.
 3) Finally execute "java -jar target/Challenge-0.0.1-SNAPSHOT.jar" to run the application.
 
