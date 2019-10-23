@@ -163,5 +163,47 @@ class ChallengeApplicationTests {
 		Mockito.verify(mockedPrintStream).println(expectedVia);
 
 	}
+	
+	@SuppressWarnings({ "unchecked", "static-access" })
+	@Test
+	public void testProcessMatchValuesForOrganizations() throws JSONException {
+		JSONObject actualOrganizationsJsonObj = new JSONObject();
+		actualOrganizationsJsonObj.put("_id", 101);
+		actualOrganizationsJsonObj.put("url", "http://initech.tokoin.io.com/api/v2/organizations/101.json");
+		actualOrganizationsJsonObj.put("external_id", "9270ed79-35eb-4a38-a46f-35725197ea8d");
+		actualOrganizationsJsonObj.put("name", "Enthaze");
+		actualOrganizationsJsonObj.put("domain_names",
+				new JSONArray(new Object[] { "kage.com", "ecratic.com", "endipin.com", "zentix.com" }));
+		actualOrganizationsJsonObj.put("created_at", "2016-03-02T03:35:41 -11:00");
+		actualOrganizationsJsonObj.put("details", "MegaCorp");
+		actualOrganizationsJsonObj.put("shared_tickets", false);
+		actualOrganizationsJsonObj.put("tags", new JSONArray(new Object[] { "Fulton", "West", "Rodriguez", "Farley" }));
+
+		// value to be printed in the console
+		PrintStream mockedPrintStream = Mockito.mock(PrintStream.class);
+		System.setOut(mockedPrintStream);
+
+		challenge.processMatchValuesForOrganizations(actualOrganizationsJsonObj);
+
+		String expectedExternalId = "external_id \t\t" + "9270ed79-35eb-4a38-a46f-35725197ea8d";
+		String expectedUrl = "url \t\t\t" + "http://initech.tokoin.io.com/api/v2/organizations/101.json";
+		String expectedName = "name \t\t\t" + "Enthaze";
+		String expectedDomainNames = "domain_names \t\t" + "[\"kage.com\",\"ecratic.com\",\"endipin.com\",\"zentix.com\"]";
+		String expectedCreatedAt = "created_at \t\t" + "2016-03-02T03:35:41 -11:00";
+		String expectedDetails = "details \t\t" + "MegaCorp";
+		String expectedSharedTickets = "shared_tickets \t\t" + false;
+		String expectedTags = "tags \t\t\t" + "[\"Fulton\",\"West\",\"Rodriguez\",\"Farley\"]";
+
+		Mockito.verify(mockedPrintStream).println(expectedExternalId);
+		Mockito.verify(mockedPrintStream).println(expectedUrl);
+		Mockito.verify(mockedPrintStream).println(expectedName);
+		Mockito.verify(mockedPrintStream).println(expectedDomainNames);
+		Mockito.verify(mockedPrintStream).println(expectedCreatedAt);
+		Mockito.verify(mockedPrintStream).println(expectedDetails);
+		Mockito.verify(mockedPrintStream).println(expectedSharedTickets);
+		Mockito.verify(mockedPrintStream).println(expectedTags);
+
+	}
+
 
 }
