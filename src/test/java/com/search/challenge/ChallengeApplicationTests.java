@@ -103,6 +103,65 @@ class ChallengeApplicationTests {
 		Mockito.verify(mockedPrintStream).println(expectedSuspended);
 		Mockito.verify(mockedPrintStream).println(expectedRole);
 	}
+	
+	@SuppressWarnings({ "unchecked", "static-access" })
+	@Test
+	public void testProcessMatchValuesForTickets() throws JSONException {
+		JSONObject actualticketsJsonObj = new JSONObject();
+		actualticketsJsonObj.put("_id", "13aafde0-81db-47fd-b1a2-94b0015803df");
+		actualticketsJsonObj.put("url",
+				"http://initech.tokoin.io.com/api/v2/tickets/13aafde0-81db-47fd-b1a2-94b0015803df.json");
+		actualticketsJsonObj.put("external_id", "6161e938-50cc-4545-acff-a4f23649b7c3");
+		actualticketsJsonObj.put("created_at", "2016-03-02T03:35:41 -11:00");
+		actualticketsJsonObj.put("type", "task");
+		actualticketsJsonObj.put("subject", "A Problem in Malawi");
+		actualticketsJsonObj.put("description",
+				"Lorem ipsum eiusmod pariatur enim. Qui aliquip voluptate cupidatat eiusmod aute velit non aute ullamco.");
+		actualticketsJsonObj.put("priority", "urgent");
+		actualticketsJsonObj.put("status", "solved");
+		actualticketsJsonObj.put("submitter_id", 42);
+		actualticketsJsonObj.put("assignee_id", 1);
+		actualticketsJsonObj.put("organization_id", 122);
+		actualticketsJsonObj.put("tags",
+				new JSONArray(new Object[] { "New Mexico", "Nebraska", "Connecticut", "Arkansas" }));
+		actualticketsJsonObj.put("has_incidents", false);
+		actualticketsJsonObj.put("due_at", "2016-08-08T03:25:53 -10:00");
+		actualticketsJsonObj.put("via", "voice");
 
+		// value to be printed in the console
+		PrintStream mockedPrintStream = Mockito.mock(PrintStream.class);
+		System.setOut(mockedPrintStream);
+
+		challenge.processMatchValuesForTickets(actualticketsJsonObj);
+
+		String expectedExternalId = "external_id \t\t" + "6161e938-50cc-4545-acff-a4f23649b7c3";
+		String expectedUrl = "url \t\t\t"
+				+ "http://initech.tokoin.io.com/api/v2/tickets/13aafde0-81db-47fd-b1a2-94b0015803df.json";
+		String expectedCreatedAt = "created_at \t\t" + "2016-03-02T03:35:41 -11:00";
+		String expectedType = "type \t\t\t" + "task";
+		String expectedSubject = "subject \t\t" + "A Problem in Malawi";
+		String expectedDescription = "description \t\t"
+				+ "Lorem ipsum eiusmod pariatur enim. Qui aliquip voluptate cupidatat eiusmod aute velit non aute ullamco.";
+		String expectedPriority = "priority \t\t" + "urgent";
+		String expectedStatus = "status \t\t\t" + "solved";
+		String expectedTags = "tags \t\t\t" + "[\"New Mexico\",\"Nebraska\",\"Connecticut\",\"Arkansas\"]";
+		String expectedHasIncidents = "has_incidents \t\t" + false;
+		String expectedDueAt = "due_at \t\t\t" + "2016-08-08T03:25:53 -10:00";
+		String expectedVia = "via \t\t\t" + "voice";
+
+		Mockito.verify(mockedPrintStream).println(expectedExternalId);
+		Mockito.verify(mockedPrintStream).println(expectedUrl);
+		Mockito.verify(mockedPrintStream).println(expectedCreatedAt);
+		Mockito.verify(mockedPrintStream).println(expectedType);
+		Mockito.verify(mockedPrintStream).println(expectedSubject);
+		Mockito.verify(mockedPrintStream).println(expectedDescription);
+		Mockito.verify(mockedPrintStream).println(expectedPriority);
+		Mockito.verify(mockedPrintStream).println(expectedStatus);
+		Mockito.verify(mockedPrintStream).println(expectedTags);
+		Mockito.verify(mockedPrintStream).println(expectedHasIncidents);
+		Mockito.verify(mockedPrintStream).println(expectedDueAt);
+		Mockito.verify(mockedPrintStream).println(expectedVia);
+
+	}
 
 }
