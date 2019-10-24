@@ -9,6 +9,7 @@ import com.search.challenge.constants.Messages;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 @SpringBootTest
 class ChallengeApplicationTests {
@@ -16,10 +17,10 @@ class ChallengeApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-	
+
 	@Autowired
 	private ChallengeApplication challenge;
-	
+
 	@SuppressWarnings("static-access")
 	@Test
 	public void testPrintInstructionsOnSearch() {
@@ -27,8 +28,8 @@ class ChallengeApplicationTests {
 		PrintStream mockedPrintStream = Mockito.mock(PrintStream.class);
 		System.setOut(mockedPrintStream);
 
-		challenge.printInstructionsOnSearch();		
-		
+		challenge.printInstructionsOnSearch();
+
 		String expectedSelectSearchOptionsMsg = Messages.SELECT_SEARCH_OPTIONS;
 		String expectedPressOne = Messages.PRESS_ONE;
 		String expectedPressTwo = Messages.PRESS_TWO;
@@ -39,7 +40,7 @@ class ChallengeApplicationTests {
 		Mockito.verify(mockedPrintStream).println(expectedPressTwo);
 		Mockito.verify(mockedPrintStream).println(expectedExit);
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "static-access" })
 	@Test
 	public void testProcessMatchValuesForUser() throws JSONException {
@@ -68,7 +69,7 @@ class ChallengeApplicationTests {
 		System.setOut(mockedPrintStream);
 
 		challenge.processMatchValuesForUser(actualUsersJsonObj);
-		
+
 		String expectedExternalId = "external_id \t\t" + "c01c2b7a-30cd-41d1-98e7-2cdd42d55d84";
 		String expectedAias = "alias \t\t\t" + "Miss Gates";
 		String expectedCreatedAt = "created_at \t\t" + "2016-03-02T03:35:41 -11:00";
@@ -103,7 +104,7 @@ class ChallengeApplicationTests {
 		Mockito.verify(mockedPrintStream).println(expectedSuspended);
 		Mockito.verify(mockedPrintStream).println(expectedRole);
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "static-access" })
 	@Test
 	public void testProcessMatchValuesForTickets() throws JSONException {
@@ -163,7 +164,7 @@ class ChallengeApplicationTests {
 		Mockito.verify(mockedPrintStream).println(expectedVia);
 
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "static-access" })
 	@Test
 	public void testProcessMatchValuesForOrganizations() throws JSONException {
@@ -188,7 +189,8 @@ class ChallengeApplicationTests {
 		String expectedExternalId = "external_id \t\t" + "9270ed79-35eb-4a38-a46f-35725197ea8d";
 		String expectedUrl = "url \t\t\t" + "http://initech.tokoin.io.com/api/v2/organizations/101.json";
 		String expectedName = "name \t\t\t" + "Enthaze";
-		String expectedDomainNames = "domain_names \t\t" + "[\"kage.com\",\"ecratic.com\",\"endipin.com\",\"zentix.com\"]";
+		String expectedDomainNames = "domain_names \t\t"
+				+ "[\"kage.com\",\"ecratic.com\",\"endipin.com\",\"zentix.com\"]";
 		String expectedCreatedAt = "created_at \t\t" + "2016-03-02T03:35:41 -11:00";
 		String expectedDetails = "details \t\t" + "MegaCorp";
 		String expectedSharedTickets = "shared_tickets \t\t" + false;
@@ -205,5 +207,70 @@ class ChallengeApplicationTests {
 
 	}
 
+	@SuppressWarnings({ "unchecked", "static-access" })
+	@Test
+	public void testDisplayOrganizationName() throws JSONException {
+		JSONObject actualticketsJsonObj = new JSONObject();
+		actualticketsJsonObj.put("_id", "13aafde0-81db-47fd-b1a2-94b0015803df");
+		actualticketsJsonObj.put("url",
+				"http://initech.tokoin.io.com/api/v2/tickets/13aafde0-81db-47fd-b1a2-94b0015803df.json");
+		actualticketsJsonObj.put("external_id", "6161e938-50cc-4545-acff-a4f23649b7c3");
+		actualticketsJsonObj.put("created_at", "2016-03-02T03:35:41 -11:00");
+		actualticketsJsonObj.put("type", "task");
+		actualticketsJsonObj.put("subject", "A Problem in Malawi");
+		actualticketsJsonObj.put("description",
+				"Lorem ipsum eiusmod pariatur enim. Qui aliquip voluptate cupidatat eiusmod aute velit non aute ullamco.");
+		actualticketsJsonObj.put("priority", "urgent");
+		actualticketsJsonObj.put("status", "solved");
+		actualticketsJsonObj.put("submitter_id", 42);
+		actualticketsJsonObj.put("assignee_id", 1);
+		actualticketsJsonObj.put("organization_id", 122L);
+		actualticketsJsonObj.put("tags",
+				new JSONArray(new Object[] { "New Mexico", "Nebraska", "Connecticut", "Arkansas" }));
+		actualticketsJsonObj.put("has_incidents", false);
+		actualticketsJsonObj.put("due_at", "2016-08-08T03:25:53 -10:00");
+		actualticketsJsonObj.put("via", "voice");
+
+		JSONParser jsonParser = new JSONParser();
+
+		// value to be printed in the console
+		PrintStream mockedPrintStream = Mockito.mock(PrintStream.class);
+		System.setOut(mockedPrintStream);
+
+		// display organization name for tickets
+		challenge.displayOrganizationName(jsonParser, actualticketsJsonObj);
+
+		String expectedOrganizationName = "organization_name \t" + "Geekfarm";
+
+		Mockito.verify(mockedPrintStream).println(expectedOrganizationName);
+
+		JSONObject actualUsersJsonObj = new JSONObject();
+		actualUsersJsonObj.put("_id", 24);
+		actualUsersJsonObj.put("url", "http://initech.tokoin.io.com/api/v2/users/24.json");
+		actualUsersJsonObj.put("external_id", "c01c2b7a-30cd-41d1-98e7-2cdd42d55d84");
+		actualUsersJsonObj.put("alias", "Miss Gates");
+		actualUsersJsonObj.put("created_at", "2016-03-02T03:35:41 -11:00");
+		actualUsersJsonObj.put("active", false);
+		actualUsersJsonObj.put("verified", false);
+		actualUsersJsonObj.put("shared", false);
+		actualUsersJsonObj.put("locale", "zh-CN");
+		actualUsersJsonObj.put("timezone", "Cameroon");
+		actualUsersJsonObj.put("last_login_at", "2013-05-11T10:41:04 -10:00");
+		actualUsersJsonObj.put("email", "gatescopeland@flotonic.com");
+		actualUsersJsonObj.put("phone", "9855-882-406");
+		actualUsersJsonObj.put("signature", "Don't Worry Be Happy!");
+		actualUsersJsonObj.put("organization_id", 110L);
+		actualUsersJsonObj.put("tags", new JSONArray(new Object[] { "Kieler", "Swartzville", "Salvo", "Guthrie" }));
+		actualUsersJsonObj.put("suspended", false);
+		actualUsersJsonObj.put("role", "agent");
+
+		// display organization name for users
+		challenge.displayOrganizationName(jsonParser, actualUsersJsonObj);
+
+		String expectedOrganizationName1 = "organization_name \t" + "Kindaloo";
+
+		Mockito.verify(mockedPrintStream).println(expectedOrganizationName1);
+
+	}
 
 }
