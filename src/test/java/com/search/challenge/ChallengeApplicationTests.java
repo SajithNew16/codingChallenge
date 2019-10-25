@@ -273,4 +273,82 @@ class ChallengeApplicationTests {
 
 	}
 
+	@SuppressWarnings({ "unchecked", "static-access" })
+	@Test
+	public void testDisplayAssigneeName() throws JSONException {
+		JSONObject actualticketsJsonObj = new JSONObject();
+		actualticketsJsonObj.put("_id", "13aafde0-81db-47fd-b1a2-94b0015803df");
+		actualticketsJsonObj.put("url",
+				"http://initech.tokoin.io.com/api/v2/tickets/13aafde0-81db-47fd-b1a2-94b0015803df.json");
+		actualticketsJsonObj.put("external_id", "6161e938-50cc-4545-acff-a4f23649b7c3");
+		actualticketsJsonObj.put("created_at", "2016-03-02T03:35:41 -11:00");
+		actualticketsJsonObj.put("type", "task");
+		actualticketsJsonObj.put("subject", "A Problem in Malawi");
+		actualticketsJsonObj.put("description",
+				"Lorem ipsum eiusmod pariatur enim. Qui aliquip voluptate cupidatat eiusmod aute velit non aute ullamco.");
+		actualticketsJsonObj.put("priority", "urgent");
+		actualticketsJsonObj.put("status", "solved");
+		actualticketsJsonObj.put("submitter_id", 42);
+		actualticketsJsonObj.put("assignee_id", 1L);
+		actualticketsJsonObj.put("organization_id", 122L);
+		actualticketsJsonObj.put("tags",
+				new JSONArray(new Object[] { "New Mexico", "Nebraska", "Connecticut", "Arkansas" }));
+		actualticketsJsonObj.put("has_incidents", false);
+		actualticketsJsonObj.put("due_at", "2016-08-08T03:25:53 -10:00");
+		actualticketsJsonObj.put("via", "voice");
+
+		JSONParser jsonParser = new JSONParser();
+
+		// value to be printed in the console
+		PrintStream mockedPrintStream = Mockito.mock(PrintStream.class);
+		System.setOut(mockedPrintStream);
+
+		// display assignee name for tickets
+		challenge.displayAssigneeName(jsonParser, actualticketsJsonObj);
+
+		String expectedAssigneeName = "assignee_name \t\t" + "Francisca Rasmussen";
+
+		Mockito.verify(mockedPrintStream).println(expectedAssigneeName);
+
+	}
+
+	@SuppressWarnings({ "unchecked", "static-access" })
+	@Test
+	public void testDisplaySubmitterName() throws JSONException {
+		JSONObject actualticketsJsonObj = new JSONObject();
+		actualticketsJsonObj.put("_id", "13aafde0-81db-47fd-b1a2-94b0015803df");
+		actualticketsJsonObj.put("url",
+				"http://initech.tokoin.io.com/api/v2/tickets/13aafde0-81db-47fd-b1a2-94b0015803df.json");
+		actualticketsJsonObj.put("external_id", "6161e938-50cc-4545-acff-a4f23649b7c3");
+		actualticketsJsonObj.put("created_at", "2016-03-02T03:35:41 -11:00");
+		actualticketsJsonObj.put("type", "task");
+		actualticketsJsonObj.put("subject", "A Problem in Malawi");
+		actualticketsJsonObj.put("description",
+				"Lorem ipsum eiusmod pariatur enim. Qui aliquip voluptate cupidatat eiusmod aute velit non aute ullamco.");
+		actualticketsJsonObj.put("priority", "urgent");
+		actualticketsJsonObj.put("status", "solved");
+		actualticketsJsonObj.put("submitter_id", 42L);
+		actualticketsJsonObj.put("assignee_id", 1L);
+		actualticketsJsonObj.put("organization_id", 122L);
+		actualticketsJsonObj.put("tags",
+				new JSONArray(new Object[] { "New Mexico", "Nebraska", "Connecticut", "Arkansas" }));
+		actualticketsJsonObj.put("has_incidents", false);
+		actualticketsJsonObj.put("due_at", "2016-08-08T03:25:53 -10:00");
+		actualticketsJsonObj.put("via", "voice");
+
+		JSONParser jsonParser = new JSONParser();
+
+		// value to be printed in the console
+		PrintStream mockedPrintStream = Mockito.mock(PrintStream.class);
+		System.setOut(mockedPrintStream);
+
+		// display submitter name for tickets
+		challenge.displaySubmitterName(jsonParser, actualticketsJsonObj);
+
+		String expectedSubmitterName = "submitter_name \t\t" + "Sampson Castillo";
+
+		Mockito.verify(mockedPrintStream).println(expectedSubmitterName);
+
+	}
+
 }
